@@ -1,8 +1,8 @@
 package com.xtkj.service;
 
-import com.xtkj.bean.Test;
+import com.xtkj.bean.User;
 
 public interface TestService {
-    Test addAccount(int id);
+    User addAccount(int userId);
 
 }

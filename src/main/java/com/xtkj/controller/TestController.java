@@ -1,6 +1,6 @@
 package com.xtkj.controller;
 
-import com.xtkj.bean.Test;
+import com.xtkj.bean.User;
 import com.xtkj.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +18,8 @@ public class TestController {
 
     @RequestMapping(value = "/addAccount", method = RequestMethod.GET)
     @ResponseBody
-    public Test addAccount(@RequestParam("id") String id) {
-        return testService.addAccount(Integer.parseInt(id));
+    public User addAccount(@RequestParam("userId") String userId) {
+        return testService.addAccount(Integer.parseInt(userId));
     }
 
 }

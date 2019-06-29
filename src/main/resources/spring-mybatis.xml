@@ -14,28 +14,41 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <!-- 引入数据库配置文件 -->
-    <bean id="propertyConfigurer"
+    <!-- 引入mysql数据库配置文件 -->
+    <!--<bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
         <property name="location" value="classpath:jdbc.properties"/>
-    </bean>
-    <!-- 连接池 -->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+    </bean>-->
+    <!-- mysql数据库配置的连接池 -->
+    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="${jdbc.driver}"/>
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
-        <!-- 初始化连接大小 -->
+        &lt;!&ndash; 初始化连接大小 &ndash;&gt;
         <property name="initialSize" value="${jdbc.initialSize}"/>
-        <!-- 连接池最大数量 -->
+        &lt;!&ndash; 连接池最大数量 &ndash;&gt;
         <property name="maxActive" value="${jdbc.maxActive}"/>
-        <!-- 连接池最大空闲 -->
+        &lt;!&ndash; 连接池最大空闲 &ndash;&gt;
         <property name="maxIdle" value="${jdbc.maxIdle}"/>
-        <!-- 连接池最小空闲 -->
+        &lt;!&ndash; 连接池最小空闲 &ndash;&gt;
         <property name="minIdle" value="${jdbc.minIdle}"/>
-        <!-- 获取连接最大等待时间 -->
+        &lt;!&ndash; 获取连接最大等待时间 &ndash;&gt;
         <property name="maxWait" value="${jdbc.maxWait}"/>
+    </bean>-->
+
+    <!-- 引入sql server数据库配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+        <property name="location" value="classpath:SQL_Server_JDBC.properties"/>
+    </bean>
+    <!-- 使用SQL server的数据库连接池c3p0 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
 
     <!-- 结合Spring和Mybatis -->
