@@ -14,17 +14,17 @@
     </resultMap>
     <!--1. 查询所选科室考核标准-->
     <select id="searchAssessmentCriteria"  resultMap="BaseResultMap" >
-       SELECT  * FROM [XiXia_Smart_Water3.0].[dbo].[zhsw_xx_assessmentStandard]  where departmentId = #{departmentId}
+       SELECT  * FROM [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard]  where departmentId = #{departmentId}
     </select>
 
     <!--2. 查询所有科室考核标准-->
     <select id="searchAllAssessmentsCriteria"  resultMap="BaseResultMap" >
-       SELECT  * FROM [XiXia_Smart_Water3.0].[dbo].[zhsw_xx_assessmentStandard]
+       SELECT  * FROM [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard]
     </select>
 
     <!--3. 修改所选科室考核标准-->
     <update id="updateAssessmentCriteria" parameterType="com.xtkj.bean.Assessment" >
-        UPDATE  [XiXia_Smart_Water3.0].[dbo].[zhsw_xx_assessmentStandard] SET assessmentContent = #{assessmentContent} where departmentId=#{departmentId}
+        UPDATE  [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard] SET assessmentContent = #{assessmentContent} where departmentId=#{departmentId}
     </update>
 
     <!--4. 根据userId确定用户权限级别-->
@@ -33,6 +33,6 @@
     </select>
     <!--5. 删除所选科室考核标准-->
     <delete id="deleteAssessment" parameterType="java.lang.Integer" >
-        DELETE FROM [XiXia_Smart_Water3.0].[dbo].[zhsw_xx_assessmentStandard] WHERE [departmentId]=#{departmentId}
+        DELETE FROM [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard] WHERE [departmentId]=#{departmentId}
     </delete>
 </mapper>
