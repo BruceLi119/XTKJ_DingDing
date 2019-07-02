@@ -64,4 +64,17 @@ public class Assessment {
     public void setPartentId(Long partentId) {
         this.partentId = partentId;
     }
+
+    @Override
+    public String toString() {
+        return "Assessment{" +
+                "departmentId=" + departmentId +
+                ", departmentName='" + departmentName + '\'' +
+                ", assessmentTitle='" + assessmentTitle + '\'' +
+                ", assessmentContent='" + assessmentContent + '\'' +
+                ", creatDeptGrop='" + creatDeptGrop + '\'' +
+                ", autoAddUser='" + autoAddUser + '\'' +
+                ", partentId=" + partentId +
+                '}';
+    }
 }

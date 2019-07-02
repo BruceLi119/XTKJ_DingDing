@@ -2,37 +2,59 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xtkj.mapper.AssessmentMapper">
 
-    <!--查询所选科室考核标准信息-->
-    <resultMap id="BaseResultMap" type="com.xtkj.bean.Assessment" >
-        <id column="departmentId" property="departmentId" jdbcType="BIGINT" />
-        <result column="departmentName" property="departmentName" jdbcType="VARCHAR" />
-        <result column="assessmentTitle" property="assessmentTitle" jdbcType="VARCHAR" />
-        <result column="assessmentContent" property="assessmentContent" jdbcType="VARCHAR" />
-        <result column="creatDeptGrop" property="creatDeptGrop" jdbcType="VARCHAR" />
-        <result column="autoAddUser" property="autoAddUser" jdbcType="VARCHAR" />
-        <result column="partentId" property="partentId" jdbcType="BIGINT" />
+    <!--01查询所选科室考核标准信息-->
+    <resultMap id="BaseResultMap1" type="com.xtkj.bean.Assessment">
+        <id column="departmentId" property="departmentId" jdbcType="BIGINT"/>
+        <result column="departmentName" property="departmentName" jdbcType="VARCHAR"/>
+        <result column="assessmentTitle" property="assessmentTitle" jdbcType="VARCHAR"/>
+        <result column="assessmentContent" property="assessmentContent" jdbcType="VARCHAR"/>
+        <result column="creatDeptGrop" property="creatDeptGrop" jdbcType="VARCHAR"/>
+        <result column="autoAddUser" property="autoAddUser" jdbcType="VARCHAR"/>
+        <result column="partentId" property="partentId" jdbcType="BIGINT"/>
+    </resultMap>
+    <!--02查询所有台账标准的部门id和部门名称-->
+    <resultMap id="BaseResultMap2" type="com.xtkj.bean.Assessment">
+        <id column="departmentId" property="departmentId" jdbcType="BIGINT"/>
+        <result column="departmentName" property="departmentName" jdbcType="VARCHAR"/>
+        <result column="assessmentTitle" property="assessmentTitle" jdbcType="VARCHAR"/>
     </resultMap>
     <!--1. 查询所选科室考核标准-->
-    <select id="searchAssessmentCriteria"  resultMap="BaseResultMap" >
+    <select id="searchAssessmentCriteria" resultMap="BaseResultMap1" >
        SELECT  * FROM [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard]  where departmentId = #{departmentId}
     </select>
 
     <!--2. 查询所有科室考核标准-->
-    <select id="searchAllAssessmentsCriteria"  resultMap="BaseResultMap" >
+    <select id="searchAllAssessmentsCriteria" resultMap="BaseResultMap1">
        SELECT  * FROM [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard]
     </select>
-
+    <!--2.1 查询所有台账标准的部门id和部门名称-->
+    <select id="searchPartOfAllAssessmentsCriteria" resultMap="BaseResultMap2">
+        SELECT  departmentId,departmentName,assessmentTitle FROM [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard]
+    </select>
     <!--3. 修改所选科室考核标准-->
-    <update id="updateAssessmentCriteria" parameterType="com.xtkj.bean.Assessment" >
+    <update id="updateAssessmentCriteria" parameterType="com.xtkj.bean.Assessment">
         UPDATE  [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard] SET assessmentContent = #{assessmentContent} where departmentId=#{departmentId}
     </update>
-
-    <!--4. 根据userId确定用户权限级别-->
-    <select id="getUserPermissionLevel" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        SELECT userLevel FROM [XTKJ03].[dbo].[admin] WHERE userId=#{userId}
+    <!--3.1 更新完 返回新的数据-->
+    <select id="getAssessmentCriteria" resultMap="BaseResultMap1">
+     SELECT  * FROM [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard]  where departmentId = #{departmentId}
     </select>
-    <!--5. 删除所选科室考核标准-->
-    <delete id="deleteAssessment" parameterType="java.lang.Integer" >
+    <!--4. 删除所选科室考核标准-->
+    <delete id="deleteAssessment" parameterType="java.lang.Long">
         DELETE FROM [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard] WHERE [departmentId]=#{departmentId}
     </delete>
+    <!--4.1 根据userId确定用户权限级别-->
+    <select id="getUserPermissionLevel" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT userLevel FROM [XTKJ03].[dbo].[admin] WHERE userId=#{userId}
+    </select>
+
+    <!--5. 同步钉钉数据-->
+    <!--5.1 更新操作-->
+    <update id="SynchronizeDingDingData" parameterType="com.xtkj.bean.Assessment">
+        UPDATE [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard] SET departmentName=#{departmentName},creatDeptGroup=#{creatDeptGroup},autoAddUser=#{autoAddUser},parentId=#{parentId} WHERE  departmentId=#{departmentId}
+    </update>
+    <!--5.2 新增操作-->
+    <insert id="addDingDingData" parameterType="com.xtkj.bean.Assessment">
+        INSERT INTO [XiXia_Smart_Water3.0].[dbo].[ZHSW_XX_AssessmentStandard]  (departmentId,departmentName,creatDeptGroup,autoAddUser=,parentId=) VALUES (#{departmentId},#{departmentName},#{creatDeptGroup},#{creatDeptGroup},#{autoAddUser},#{parentId})
+    </insert>
 </mapper>
